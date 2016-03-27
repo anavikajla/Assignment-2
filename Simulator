@@ -1,0 +1,54 @@
+import java.io.*;
+import java.lang.*;
+import java.util.StringTokenizer;
+
+public class Simulator{
+	
+	public static void main(String args[])throws Exception
+	{ 
+		FileReader read_file = new FileReader("/Users/anavikajla/Desktop/netlist.txt"); 
+	    String[] str_arr = new String[100];
+		String string;
+	    int i=0, j=0;
+		
+		
+	 	LineNumberReader line_reader = new LineNumberReader(read_file);       
+	    //string = line_reader.readLine();
+		
+		while((string=line_reader.readLine())!=null)
+	    {
+	    	i=line_reader.getLineNumber();
+			StringTokenizer str = new StringTokenizer (string);
+	       	while (str.hasMoreTokens())
+	        {
+				str_arr[j++] = str.nextToken();
+			}
+		}
+		
+		System.out.println("Total number of gates = " + i); 
+		
+		int[] count = new int[i];
+		   
+		    for (int k=0;k<i;k++)
+		    {
+		    	String str2 = Integer.toString(k);         
+		        	for (int p=0;p<j;p++)
+		            {
+		            	if(str_arr[p].equals(str2))
+		               	{
+		                	count[k]++;
+		               	}
+		            }
+		    } 
+			
+			for(int q=0;q<i;q++)
+			{
+				int result = count[q] - 1;
+				System.out.println(q + " " + result);
+			}
+			
+		read_file.close(); 
+	    line_reader.close();  
+		
+	}
+}
