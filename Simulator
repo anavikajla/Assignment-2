@@ -3,52 +3,66 @@ import java.lang.*;
 import java.util.StringTokenizer;
 
 public class Simulator{
+
+	static String[] tokensOfNetlist = new String[100];
+	static int numberOfGates = 0;
+	static String gate = "";
 	
 	public static void main(String args[])throws Exception
 	{ 
-		FileReader read_file = new FileReader("/Users/anavikajla/Desktop/netlist.txt"); 
-	    String[] str_arr = new String[100];
+		FileReader readFile = new FileReader("./netlist.txt");
+		LineNumberReader lineReader = new LineNumberReader(readFile); 
+	    	
+	    	PrintFanout(lineReader);
+	    	
+	    	readFile.close(); 
+		lineReader.close(); 
+		
+	}
+	
+	//Prints statistics of file --
+	//1. Total number of gates in the netlist file
+	//2. Fanout of each gate
+	
+	public static void PrintFanout(LineNumberReader netlist)throws Exception
+	{	   
 		String string;
-	    int i=0, j=0;
+		int j=0;
 		
-		
-	 	LineNumberReader line_reader = new LineNumberReader(read_file);       
-	    //string = line_reader.readLine();
-		
-		while((string=line_reader.readLine())!=null)
-	    {
-	    	i=line_reader.getLineNumber();
-			StringTokenizer str = new StringTokenizer (string);
-	       	while (str.hasMoreTokens())
-	        {
-				str_arr[j++] = str.nextToken();
+		while((string=netlist.readLine())!=null)
+	    	{
+	    		numberOfGates = netlist.getLineNumber();
+			StringTokenizer str = new StringTokenizer(string);
+	       		while (str.hasMoreTokens())
+	        	{
+				tokensOfNetlist[j++] = str.nextToken();
+			
 			}
 		}
 		
-		System.out.println("Total number of gates = " + i); 
+		System.out.println("Total number of gates = " + numberOfGates); 
 		
-		int[] count = new int[i];
+		int[] count = new int[numberOfGates];
 		   
-		    for (int k=0;k<i;k++)
-		    {
-		    	String str2 = Integer.toString(k);         
-		        	for (int p=0;p<j;p++)
-		            {
-		            	if(str_arr[p].equals(str2))
+		for (int k=0;k<numberOfGates;k++)
+		{
+			String str2 = Integer.toString(k);         
+		        for (int p=0;p<j;p++)
+		        {
+		       		if(tokensOfNetlist[p].equals(str2))
 		               	{
 		                	count[k]++;
 		               	}
-		            }
-		    } 
+		        }
+		} 
 			
-			for(int q=0;q<i;q++)
-			{
-				int result = count[q] - 1;
-				System.out.println(q + " " + result);
-			}
+		for(int q=0;q<numberOfGates;q++)
+		{
+			int result = count[q] - 1; //deduct one to remove index where the gate number is mentioned on a line
+			System.out.println(q + " " + result);
+		}
 			
-		read_file.close(); 
-	    line_reader.close();  
+	 
 		
 	}
 }
