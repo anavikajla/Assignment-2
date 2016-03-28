@@ -13,7 +13,7 @@ public class Simulator{
 		FileReader readFile = new FileReader("./netlist.txt");
 		LineNumberReader lineReader = new LineNumberReader(readFile); 
 	    	
-	    	PrintFanout(lineReader);
+	    	printFanout(lineReader);
 	    	
 	    	readFile.close(); 
 		lineReader.close(); 
@@ -24,7 +24,7 @@ public class Simulator{
 	//1. Total number of gates in the netlist file
 	//2. Fanout of each gate
 	
-	public static void PrintFanout(LineNumberReader netlist)throws Exception
+	public static void printFanout(LineNumberReader netlist)throws Exception
 	{	   
 		String string;
 		int j=0;
